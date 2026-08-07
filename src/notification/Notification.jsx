@@ -1,4 +1,5 @@
-import { Bell, Calendar, UserPlus, Video } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Bell, Loader2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,74 +7,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useNotifications } from "@/hooks/useNotifications";
 
-const notifications = [
-  {
-    id: 1,
-    icon: Video,
-    title: "Sprint Planning",
-    message: "Meeting starts in 10 minutes.",
-    time: "2 min ago",
-  },
-  {
-    id: 2,
-    icon: UserPlus,
-    title: "New Member",
-    message: "Sarah Wilson joined MeetHub.",
-    time: "15 min ago",
-  },
-  {
-    id: 3,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 4,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 5,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 6,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 7,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 8,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-  {
-    id: 9,
-    icon: Calendar,
-    title: "Meeting Scheduled",
-    message: "Client Demo has been scheduled.",
-    time: "1 hour ago",
-  },
-];
+function formatDate(iso) {
+  if (!iso) return "—";
+  return new Date(iso).toLocaleString();
+}
 
 const Notification = () => {
+  const navigate = useNavigate();
+  const { data, isLoading } = useNotifications();
+  const notifications = data?.configurations ?? [];
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -109,37 +54,43 @@ const Notification = () => {
 
         {/* Notification List */}
         <div className="max-h-96 overflow-y-auto">
-          {notifications.length > 0 ? (
-            notifications.map((notification) => {
-              const Icon = notification.icon;
-
-              return (
-                <DropdownMenuItem
-                  key={notification.id}
-                  className="flex cursor-pointer items-start gap-3 px-4 py-4 transition-colors hover:bg-muted"
-                >
-                  <div className="rounded-full bg-primary/10 p-2">
-                    <Icon className="h-5 w-5 text-primary" />
-                  </div>
-
-                  <div className="flex-1">
-                    <p className="font-medium">{notification.title}</p>
-
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {notification.message}
-                    </p>
-
-                    <p className="mt-2 text-xs text-muted-foreground">
-                      {notification.time}
-                    </p>
-                  </div>
-                </DropdownMenuItem>
-              );
-            })
-          ) : (
-            <div className="py-8 text-center text-sm text-muted-foreground">
-              No notifications
+          {isLoading && (
+            <div className="flex items-center justify-center gap-2 py-8 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Loading…
             </div>
+          )}
+
+          {!isLoading && notifications.length > 0 ? (
+            notifications.map((notification) => (
+              <DropdownMenuItem
+                key={notification.itemId}
+                className="flex cursor-pointer items-start gap-3 px-4 py-4 transition-colors hover:bg-muted"
+                onClick={() => navigate(`/notifications/${notification.itemId}`)}
+              >
+                <div className="rounded-full bg-primary/10 p-2">
+                  <Bell className="h-5 w-5 text-primary" />
+                </div>
+
+                <div className="flex-1">
+                  <p className="font-medium">{notification.name}</p>
+
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    {notification.notifyMethod}
+                  </p>
+
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {formatDate(notification.createdDate)}
+                  </p>
+                </div>
+              </DropdownMenuItem>
+            ))
+          ) : (
+            !isLoading && (
+              <div className="py-8 text-center text-sm text-muted-foreground">
+                No notifications
+              </div>
+            )
           )}
         </div>
 
