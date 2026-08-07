@@ -40,7 +40,10 @@ export async function getDiscoveryDocument() {
   } catch (err) {
     const stale = readCache(/* ignoreExpiry */ true);
     if (stale) {
-      console.warn("Using stale OIDC discovery document after fetch failure:", err);
+      console.warn(
+        "Using stale OIDC discovery document after fetch failure:",
+        err,
+      );
       return stale;
     }
     throw err;
