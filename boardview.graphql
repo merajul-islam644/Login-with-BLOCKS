@@ -1,0 +1,89 @@
+"""
+GraphQL schema for the Boardview feature (src/pages/Boardview.jsx).
+Mirrors the current localStorage-backed data model 1:1 — no fields invented
+beyond what the UI already reads/writes.
+"""
+
+type Query {
+  boardview: Boardview!
+  teamMembers: [TeamMember!]!
+}
+
+type Mutation {
+  addSection(input: AddSectionInput!): Column!
+  renameSection(input: RenameSectionInput!): Column!
+  deleteSection(columnId: ID!): Boolean!
+
+  addItem(input: AddItemInput!): Item!
+  updateItem(input: UpdateItemInput!): Item!
+  deleteItem(columnId: ID!, itemId: ID!): Boolean!
+  moveItem(input: MoveItemInput!): Item!
+}
+
+type Boardview {
+  columns: [Column!]!
+}
+
+type Column {
+  id: ID!
+  title: String!
+  items: [Item!]!
+}
+
+type Item {
+  id: ID!
+  title: String!
+  description: String
+  assignees: [TeamMember!]!
+}
+
+enum MemberStatus {
+  ONLINE
+  AWAY
+  OFFLINE
+}
+
+type TeamMember {
+  id: ID!
+  name: String!
+  title: String!
+  department: String!
+  status: MemberStatus!
+  tags: [String!]!
+  email: String!
+  phone: String!
+  location: String!
+  timezone: String!
+  memberSince: Int!
+}
+
+input AddSectionInput {
+  title: String!
+  afterColumnId: ID
+}
+
+input RenameSectionInput {
+  columnId: ID!
+  title: String!
+}
+
+input AddItemInput {
+  columnId: ID!
+  title: String!
+  description: String
+  assigneeIds: [ID!]
+}
+
+input UpdateItemInput {
+  columnId: ID!
+  itemId: ID!
+  title: String!
+  description: String
+  assigneeIds: [ID!]
+}
+
+input MoveItemInput {
+  sourceColumnId: ID!
+  targetColumnId: ID!
+  itemId: ID!
+}

@@ -13,6 +13,8 @@ import OrganizationDetails from "./pages/OrganizationDetails";
 import PermissionDetails from "./pages/PermissionDetails";
 import Settings from "./pages/Settings";
 import NotificationDetails from "./pages/NotificationDetails";
+import Boardview from "./pages/Boardview";
+import { ToastProvider } from "./components/ui/toast";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,7 @@ export default function App() {
         <ThemeProvider>
           <LanguageProvider>
             <AuthProvider>
+              <ToastProvider>
               <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/callback" element={<Callback />} />
@@ -82,9 +85,18 @@ export default function App() {
                     </ProtectedRoute>
                   }
                 />
+                <Route
+                  path="/boardview"
+                  element={
+                    <ProtectedRoute>
+                      <Boardview />
+                    </ProtectedRoute>
+                  }
+                />
                 <Route path="/" element={<Navigate to="/dashboard" replace />} />
                 <Route path="*" element={<Navigate to="/dashboard" replace />} />
               </Routes>
+              </ToastProvider>
             </AuthProvider>
           </LanguageProvider>
         </ThemeProvider>
