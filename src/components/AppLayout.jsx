@@ -4,12 +4,12 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default function AppLayout({ children }) {
   return (
-    <div className="min-h-screen">
+    <div className="flex h-screen flex-col overflow-hidden">
       <TopBar />
       <SidebarProvider>
-        <div className="flex">
+        <div className="flex flex-1 overflow-hidden">
           <AppSidebar />
-          <main className="flex-1 p-6">{children}</main>
+          <main className="flex-1 overflow-y-auto p-6">{children}</main>
         </div>
       </SidebarProvider>
     </div>

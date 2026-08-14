@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, forwardRef, useContext, useState } from "react";
 import { PanelLeft } from "lucide-react";
 import { cn } from "@/lib/utils"
 
@@ -75,11 +75,15 @@ function SidebarMenuItem({ className, ...props }) {
   );
 }
 
-function SidebarMenuButton({ className, isActive, title, children, ...props }) {
+const SidebarMenuButton = forwardRef(function SidebarMenuButton(
+  { className, isActive, title, children, ...props },
+  ref
+) {
   const { collapsed } = useSidebar();
 
   return (
     <button
+      ref={ref}
       data-slot="sidebar-menu-button"
       data-active={isActive}
       title={collapsed ? title : undefined}
@@ -98,26 +102,33 @@ function SidebarMenuButton({ className, isActive, title, children, ...props }) {
         : children}
     </button>
   );
-}
+});
 
-function SidebarTrigger({ className, ...props }) {
+const SidebarTrigger = forwardRef(function SidebarTrigger(
+  { className, onClick, ...props },
+  ref
+) {
   const { collapsed, toggleCollapsed } = useSidebar();
 
   return (
     <button
+      ref={ref}
       data-slot="sidebar-trigger"
-      onClick={toggleCollapsed}
       aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       className={cn(
         "flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
         className
       )}
       {...props}
+      onClick={(event) => {
+        onClick?.(event);
+        toggleCollapsed();
+      }}
     >
       <PanelLeft className="h-4 w-4" />
     </button>
   );
-}
+});
 
 export {
   SidebarProvider,
