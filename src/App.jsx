@@ -26,76 +26,82 @@ export default function App() {
           <LanguageProvider>
             <AuthProvider>
               <ToastProvider>
-              <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/callback" element={<Callback />} />
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectedRoute>
-                      <Dashboard />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <ProtectedRoute>
-                      <Profile />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/roles/:slug"
-                  element={
-                    <ProtectedRoute>
-                      <RoleDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/organizations/:itemId"
-                  element={
-                    <ProtectedRoute>
-                      <OrganizationDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/permissions/:name"
-                  element={
-                    <ProtectedRoute>
-                      <PermissionDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/settings"
-                  element={
-                    <ProtectedRoute>
-                      <Settings />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/notifications/:itemId"
-                  element={
-                    <ProtectedRoute>
-                      <NotificationDetails />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/boardview"
-                  element={
-                    <ProtectedRoute>
-                      <Boardview />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route path="/" element={<Navigate to="/dashboard" replace />} />
-                <Route path="*" element={<Navigate to="/dashboard" replace />} />
-              </Routes>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/callback" element={<Callback />} />
+                  <Route
+                    path="/dashboard"
+                    element={
+                      <ProtectedRoute>
+                        <Dashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profile"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/roles/:slug"
+                    element={
+                      <ProtectedRoute>
+                        <RoleDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/organizations/:itemId"
+                    element={
+                      <ProtectedRoute>
+                        <OrganizationDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/permissions/:name"
+                    element={
+                      <ProtectedRoute>
+                        <PermissionDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/settings"
+                    element={
+                      <ProtectedRoute>
+                        <Settings />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/notifications/:itemId"
+                    element={
+                      <ProtectedRoute>
+                        <NotificationDetails />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/boardview"
+                    element={
+                      <ProtectedRoute>
+                        <Boardview />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/"
+                    element={<Navigate to="/dashboard" replace />}
+                  />
+                  <Route
+                    path="*"
+                    element={<Navigate to="/dashboard" replace />}
+                  />
+                </Routes>
               </ToastProvider>
             </AuthProvider>
           </LanguageProvider>
