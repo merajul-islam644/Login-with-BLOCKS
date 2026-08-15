@@ -115,9 +115,7 @@ export function ItemDetailDrawer({ detailItem, onOpenChange }) {
             {(detailItem?.item.assignees ?? []).filter((id) =>
               TEAM_MEMBERS.some((m) => m.id === id),
             ).length === 0 && (
-              <span className="text-sm text-muted-foreground">
-                No assignee
-              </span>
+              <span className="text-sm text-muted-foreground">No assignee</span>
             )}
             {detailItem?.item.assignees.map((id) => {
               const member = TEAM_MEMBERS.find((m) => m.id === id);

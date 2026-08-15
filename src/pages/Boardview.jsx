@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import { deleteBoard, getBoards, insertBoard, updateBoard } from "@/api/boards";
 import { toast } from "@/components/ui/toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { defaultColumns } from "@/pages/boardview/constants";
 import { mapBoardsToColumns } from "@/pages/boardview/utils";
 import { BoardColumn } from "@/pages/boardview/BoardColumn";
@@ -62,6 +70,8 @@ export default function Boardview() {
 
   const [draggedItem, setDraggedItem] = useState(null); // { columnIndex, itemId }
   const [dragOverIndex, setDragOverIndex] = useState(null);
+  const [searchFilter, setSearchFilter] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const handleDragStart = (columnIndex, itemId) => {
     setDraggedItem({ columnIndex, itemId });
@@ -202,7 +212,9 @@ export default function Boardview() {
     }
 
     setColumns((prev) =>
-      prev.map((col, i) => (i === editingIndex ? { ...col, title: name } : col)),
+      prev.map((col, i) =>
+        i === editingIndex ? { ...col, title: name } : col,
+      ),
     );
     setEditingIndex(null);
   };
@@ -358,7 +370,12 @@ export default function Boardview() {
               ...col,
               items: col.items.map((item) =>
                 item.id === editItem.itemId
-                  ? { ...item, title, description, assignees: editItemAssignees }
+                  ? {
+                      ...item,
+                      title,
+                      description,
+                      assignees: editItemAssignees,
+                    }
                   : item,
               ),
             }
@@ -397,7 +414,26 @@ export default function Boardview() {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="-m-6 flex h-[calc(100vh-3.75rem)] items-center justify-center border-t bg-border">
+        <div className="-m-6 bg-background px-6 py-4 mb-6">
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="relative flex-1 min-w-[250px]">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search items..."
+                disabled
+                className="w-full rounded-md border bg-background pl-10 pr-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary opacity-50"
+              />
+            </div>
+            <select
+              disabled
+              className="rounded-md border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary opacity-50"
+            >
+              <option>All Status</option>
+            </select>
+          </div>
+        </div>
+        <div className="-m-6 flex h-[calc(100vh-8.75rem)] items-center justify-center bg-white dark:bg-black">
           <span className="text-sm text-muted-foreground">Loading board…</span>
         </div>
       </AppLayout>
@@ -407,12 +443,42 @@ export default function Boardview() {
   return (
     <AppLayout>
       {loadError && (
-        <div className="-m-6 mb-3 border-b bg-destructive/10 px-6 py-2 text-sm text-destructive">
+        <div className="-m-6 mb-3 bg-destructive/10 px-6 py-2 text-sm text-destructive">
           Failed to load board data: {loadError}
         </div>
       )}
+      <div className="-m-6 bg-background px-6 py-4 mb-6">
+        <div className="flex items-center gap-3 flex-wrap">
+          <div className="relative flex-1 min-w-[250px]">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Search items..."
+              value={searchFilter}
+              onChange={(e) => setSearchFilter(e.target.value)}
+              className="w-full rounded-md border bg-background pl-10 pr-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </div>
+          <Select value={statusFilter} onValueChange={setStatusFilter}>
+            <SelectTrigger className="w-auto min-w-[140px]">
+              <SelectValue placeholder="Select status">
+                {statusFilter === "all" && "All Status"}
+                {statusFilter === "todo" && "To Do"}
+                {statusFilter === "in-progress" && "In Progress"}
+                {statusFilter === "done" && "Done"}
+              </SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="todo">To Do</SelectItem>
+              <SelectItem value="in-progress">In Progress</SelectItem>
+              <SelectItem value="done">Done</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <div
-        className={`-m-6 flex h-[calc(100vh-3.75rem)] gap-0.75 overflow-x-auto border-t bg-border ${
+        className={`-m-6 flex h-[calc(100vh-8.75rem)] gap-0.75 overflow-x-auto bg-white dark:bg-black pl-6 pr-6 ${
           columns.length === 3 ? "justify-center" : ""
         }`}
       >
@@ -426,9 +492,8 @@ export default function Boardview() {
             draggedItem={draggedItem}
             onEditSection={openEditDialog}
             onDeleteSection={(idx) =>
-              askConfirm(
-                "Are you sure you want to delete this section?",
-                () => handleDeleteSection(idx),
+              askConfirm("Are you sure you want to delete this section?", () =>
+                handleDeleteSection(idx),
               )
             }
             onAddSection={openAddDialog}
@@ -443,9 +508,8 @@ export default function Boardview() {
             onAddItem={openAddItemDialog}
             onEditItem={openEditItemDialog}
             onDeleteItem={(idx, itemId) =>
-              askConfirm(
-                "Are you sure you want to delete this item?",
-                () => handleDeleteItem(idx, itemId),
+              askConfirm("Are you sure you want to delete this item?", () =>
+                handleDeleteItem(idx, itemId),
               )
             }
             onMoveItem={moveItemToColumn}

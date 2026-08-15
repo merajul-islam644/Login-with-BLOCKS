@@ -1,4 +1,11 @@
-import { Circle, MoreHorizontal, Pencil, Plus, Trash2, Workflow } from "lucide-react";
+import {
+  Circle,
+  MoreHorizontal,
+  Pencil,
+  Plus,
+  Trash2,
+  Workflow,
+} from "lucide-react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -6,7 +13,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { TEAM_MEMBERS } from "./constants";
 import { initialsFor } from "./utils";
 import { MemberHoverCard } from "./MemberHoverCard";
@@ -33,8 +44,8 @@ export function BoardColumn({
   onMoveItem,
 }) {
   return (
-    <div className="group flex w-80 shrink-0 flex-col bg-background">
-      <div className="flex h-11 items-center gap-2 border-b px-4">
+    <div className="group flex w-80 shrink-0 flex-col bg-background dark:bg-black border dark:border-gray-800 shadow-sm">
+      <div className="flex h-11 items-center gap-2 border-b dark:border-gray-800 px-4">
         <Circle className="h-4 w-4 text-muted-foreground" />
         <span className="text-xs font-semibold tracking-wide text-foreground">
           {column.title.toUpperCase()}
@@ -188,7 +199,9 @@ export function BoardColumn({
               <MoveColumnPopover
                 columns={columns}
                 currentIndex={index}
-                onMove={(targetIndex) => onMoveItem(index, item.id, targetIndex)}
+                onMove={(targetIndex) =>
+                  onMoveItem(index, item.id, targetIndex)
+                }
               >
                 <button
                   type="button"
