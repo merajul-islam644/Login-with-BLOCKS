@@ -13,7 +13,7 @@ export default function Login() {
   const { login, error, status } = useAuth();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+    <div className="relative h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
       {/* Background Decoration */}
       <div className="pointer-events-none absolute inset-0">
         <div className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" />
@@ -46,7 +46,7 @@ export default function Login() {
             {/* Main Heading */}
             <h1 className="max-w-xl text-5xl font-bold leading-[1.08] tracking-tight xl:text-6xl">
               One secure gateway to your
-              <span className="mt-2 block bg-gradient-to-r from-primary to-blue-500 bg-clip-text text-transparent">
+              <span className="mt-2 block bg-linear-to-r from-primary to-blue-500 bg-clip-text text-transparent">
                 BLOCKS Workspace
               </span>
             </h1>
@@ -94,7 +94,7 @@ export default function Login() {
           <div className="flex items-center justify-center">
             <div className="w-full max-w-md">
               {/* Login Card */}
-              <div className="relative overflow-hidden rounded-[2rem] border border-white/60 bg-white/80 p-8 shadow-2xl shadow-slate-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/80 sm:p-10">
+              <div className="relative overflow-hidden rounded-4xl border border-white/60 bg-white/80 p-8 shadow-2xl shadow-slate-900/10 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/80 sm:p-10">
                 {/* Card Glow */}
                 <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
 
@@ -103,7 +103,7 @@ export default function Login() {
                   <div className="relative">
                     <div className="absolute inset-0 rounded-2xl bg-primary/20 blur-xl" />
 
-                    <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-primary to-blue-600 text-primary-foreground shadow-xl shadow-primary/25">
+                    <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl bg-linear-to-br from-primary to-blue-600 text-primary-foreground shadow-xl shadow-primary/25">
                       <ShieldCheck className="h-10 w-10" />
                     </div>
                   </div>
@@ -123,7 +123,7 @@ export default function Login() {
                 {/* Login Button */}
                 <Button
                   size="lg"
-                  className="group mt-8 h-13 w-full rounded-xl bg-gradient-to-r from-primary to-blue-600 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/25"
+                  className="group mt-8 h-13 w-full rounded-xl bg-linear-to-r from-primary to-blue-600 text-base font-semibold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-primary/25"
                   onClick={() => login("/dashboard")}
                   disabled={status === "loading"}
                 >

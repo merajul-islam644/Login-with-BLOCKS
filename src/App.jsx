@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Callback from "./pages/Callback";
 import Dashboard from "./pages/Dashboard";
 import Profile from "./pages/Profile";
+import PortalDetails from "./pages/PortalDetails";
 import RoleDetails from "./pages/RoleDetails";
 import OrganizationDetails from "./pages/OrganizationDetails";
 import PermissionDetails from "./pages/PermissionDetails";
@@ -15,6 +16,7 @@ import Settings from "./pages/Settings";
 import NotificationDetails from "./pages/NotificationDetails";
 import Boardview from "./pages/Boardview";
 import { ToastProvider } from "./components/ui/toast";
+import { TooltipProvider } from "./components/ui/tooltip";
 
 const queryClient = new QueryClient();
 
@@ -26,82 +28,92 @@ export default function App() {
           <LanguageProvider>
             <AuthProvider>
               <ToastProvider>
-                <Routes>
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/callback" element={<Callback />} />
-                  <Route
-                    path="/dashboard"
-                    element={
-                      <ProtectedRoute>
-                        <Dashboard />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/profile"
-                    element={
-                      <ProtectedRoute>
-                        <Profile />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/roles/:slug"
-                    element={
-                      <ProtectedRoute>
-                        <RoleDetails />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/organizations/:itemId"
-                    element={
-                      <ProtectedRoute>
-                        <OrganizationDetails />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/permissions/:name"
-                    element={
-                      <ProtectedRoute>
-                        <PermissionDetails />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/settings"
-                    element={
-                      <ProtectedRoute>
-                        <Settings />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/notifications/:itemId"
-                    element={
-                      <ProtectedRoute>
-                        <NotificationDetails />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/boardview"
-                    element={
-                      <ProtectedRoute>
-                        <Boardview />
-                      </ProtectedRoute>
-                    }
-                  />
-                  <Route
-                    path="/"
-                    element={<Navigate to="/dashboard" replace />}
-                  />
-                  <Route
-                    path="*"
-                    element={<Navigate to="/dashboard" replace />}
-                  />
-                </Routes>
+                <TooltipProvider>
+                  <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/callback" element={<Callback />} />
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute>
+                          <Dashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/profile"
+                      element={
+                        <ProtectedRoute>
+                          <Profile />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/roles/:slug"
+                      element={
+                        <ProtectedRoute>
+                          <RoleDetails />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/organizations/:itemId"
+                      element={
+                        <ProtectedRoute>
+                          <OrganizationDetails />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/permissions/:name"
+                      element={
+                        <ProtectedRoute>
+                          <PermissionDetails />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/settings"
+                      element={
+                        <ProtectedRoute>
+                          <Settings />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/notifications/:itemId"
+                      element={
+                        <ProtectedRoute>
+                          <NotificationDetails />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/boardview"
+                      element={
+                        <ProtectedRoute>
+                          <Boardview />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/portal"
+                      element={
+                        <ProtectedRoute>
+                          <PortalDetails />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/"
+                      element={<Navigate to="/dashboard" replace />}
+                    />
+                    <Route
+                      path="*"
+                      element={<Navigate to="/dashboard" replace />}
+                    />
+                  </Routes>
+                </TooltipProvider>
               </ToastProvider>
             </AuthProvider>
           </LanguageProvider>

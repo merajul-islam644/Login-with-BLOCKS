@@ -19,6 +19,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from "@/components/ui/tooltip";
 import Notification from "@/notification/Notification";
 import { useAuth } from "@/context/AuthContext";
 import { useTheme } from "@/context/ThemeContext";
@@ -57,7 +62,9 @@ const TopBar = () => {
   const { data: userDetails } = useUserPermissions();
   const permissions = userDetails?.permissions ?? [];
   const { data: profile } = useProfile();
-  const fullName = [profile?.firstName, profile?.lastName].filter(Boolean).join(" ");
+  const fullName = [profile?.firstName, profile?.lastName]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <header className="sticky top-0 z-40 flex h-15 items-center border-b bg-background px-6">
@@ -83,7 +90,8 @@ const TopBar = () => {
                 onClick={() => setLanguage(lang.languageCode)}
                 className={cn(
                   "justify-between",
-                  lang.languageCode === currentLanguage?.languageCode && "font-medium"
+                  lang.languageCode === currentLanguage?.languageCode &&
+                    "font-medium",
                 )}
               >
                 {lang.languageName}
@@ -107,7 +115,9 @@ const TopBar = () => {
 
           <DropdownMenuContent align="end" className="w-64">
             {roles.length === 0 && (
-              <div className="px-3 py-2 text-sm text-muted-foreground">No roles found</div>
+              <div className="px-3 py-2 text-sm text-muted-foreground">
+                No roles found
+              </div>
             )}
             {roles.map((role) => (
               <DropdownMenuItem
@@ -117,7 +127,9 @@ const TopBar = () => {
               >
                 <span className="font-medium">{role.name}</span>
                 {role.description && (
-                  <span className="text-xs text-muted-foreground">{role.description}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {role.description}
+                  </span>
                 )}
               </DropdownMenuItem>
             ))}
@@ -141,7 +153,9 @@ const TopBar = () => {
             {permissions.map((permission) => (
               <DropdownMenuItem
                 key={permission}
-                onClick={() => navigate(`/permissions/${encodeURIComponent(permission)}`)}
+                onClick={() =>
+                  navigate(`/permissions/${encodeURIComponent(permission)}`)
+                }
               >
                 {permission}
               </DropdownMenuItem>
@@ -159,7 +173,9 @@ const TopBar = () => {
 
           <DropdownMenuContent align="end" className="w-72">
             {orgErrorMessage && (
-              <div className="px-3 py-2 text-sm text-muted-foreground">{orgErrorMessage}</div>
+              <div className="px-3 py-2 text-sm text-muted-foreground">
+                {orgErrorMessage}
+              </div>
             )}
             {!orgErrorMessage && organizations.length === 0 && (
               <div className="px-3 py-2 text-sm text-muted-foreground">
@@ -174,22 +190,48 @@ const TopBar = () => {
               >
                 <span className="font-medium">{org.name}</span>
                 {org.description && (
-                  <span className="text-xs text-muted-foreground">{org.description}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {org.description}
+                  </span>
                 )}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full"
-          onClick={toggleTheme}
-          aria-label={theme === "light" ? "Switch to dark theme" : "Switch to light theme"}
-        >
-          {theme === "light" ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-        </Button>
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-full"
+                onClick={toggleTheme}
+                title={
+                  theme === "light"
+                    ? "Switch to dark theme"
+                    : "Switch to light theme"
+                }
+                aria-label={
+                  theme === "light"
+                    ? "Switch to dark theme"
+                    : "Switch to light theme"
+                }
+              >
+                {theme === "light" ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+              </Button>
+            }
+          />
+          <TooltipContent side="bottom" sideOffset={8}>
+            {theme === "light"
+              ? "Switch to dark theme"
+              : "Switch to light theme"}
+          </TooltipContent>
+        </Tooltip>
 
         <Notification />
 
@@ -197,8 +239,12 @@ const TopBar = () => {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 rounded-full p-1 transition hover:bg-muted">
               <Avatar className="h-10 w-10">
-                {profile?.profileImageUrl && <AvatarImage src={profile.profileImageUrl} />}
-                <AvatarFallback>{initialsFor(fullName, profile?.email)}</AvatarFallback>
+                {profile?.profileImageUrl && (
+                  <AvatarImage src={profile.profileImageUrl} />
+                )}
+                <AvatarFallback>
+                  {initialsFor(fullName, profile?.email)}
+                </AvatarFallback>
               </Avatar>
             </button>
           </DropdownMenuTrigger>

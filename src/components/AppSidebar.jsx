@@ -1,4 +1,10 @@
-import { LayoutDashboard, Settings, Kanban } from "lucide-react";
+import {
+  LayoutDashboard,
+  Settings,
+  Kanban,
+  Workflow,
+  GitBranch,
+} from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   Sidebar,
@@ -22,6 +28,7 @@ import { useRoles } from "@/hooks/useRoles";
 const items = [
   { label: "Dashboard", to: "/dashboard", icon: LayoutDashboard },
   { label: "Boardview", to: "/boardview", icon: Kanban },
+  { label: "Portal", to: "/portal", icon: GitBranch },
   { label: "Settings", to: "/settings", icon: Settings },
 ];
 
@@ -54,7 +61,7 @@ export default function AppSidebar() {
         )}
         <Tooltip>
           <TooltipTrigger render={<SidebarTrigger />} />
-          <TooltipContent>
+          <TooltipContent side="right" sideOffset={8}>
             {collapsed ? "Expand sidebar" : "Collapse sidebar"}
           </TooltipContent>
         </Tooltip>
@@ -65,20 +72,30 @@ export default function AppSidebar() {
           <SidebarMenu>
             {items.map((item) => (
               <SidebarMenuItem key={item.to}>
-                <Tooltip>
-                  <TooltipTrigger
-                    render={
-                      <SidebarMenuButton
-                        isActive={location.pathname === item.to}
-                        onClick={() => navigate(item.to)}
-                      >
-                        <item.icon />
-                        {item.label}
-                      </SidebarMenuButton>
-                    }
-                  />
-                  <TooltipContent side="right">{item.label}</TooltipContent>
-                </Tooltip>
+                {collapsed ? (
+                  <Tooltip>
+                    <TooltipTrigger
+                      render={
+                        <SidebarMenuButton
+                          isActive={location.pathname === item.to}
+                          onClick={() => navigate(item.to)}
+                        >
+                          <item.icon />
+                          {item.label}
+                        </SidebarMenuButton>
+                      }
+                    />
+                    <TooltipContent side="right">{item.label}</TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <SidebarMenuButton
+                    isActive={location.pathname === item.to}
+                    onClick={() => navigate(item.to)}
+                  >
+                    <item.icon />
+                    {item.label}
+                  </SidebarMenuButton>
+                )}
               </SidebarMenuItem>
             ))}
           </SidebarMenu>
